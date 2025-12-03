@@ -11,5 +11,15 @@ namespace DBautodMilan
         {
 
         }
+
+        private void btnAddOwner_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDeleteOwner_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
