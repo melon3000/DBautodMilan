@@ -33,19 +33,6 @@
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
-            tabPage4 = new TabPage();
-            panel4 = new Panel();
-            btnAddCarService = new Button();
-            btnDeleteCarService = new Button();
-            label2 = new Label();
-            txtMileage = new TextBox();
-            label1 = new Label();
-            dtServiceDate = new DateTimePicker();
-            cbServiceList = new Label();
-            comboBox1 = new ComboBox();
-            LabelCar = new Label();
-            cbCars = new ComboBox();
-            dataGridView1 = new DataGridView();
             tabPage1 = new TabPage();
             dgvOwners = new DataGridView();
             panel1 = new Panel();
@@ -68,6 +55,19 @@
             txtModel = new TextBox();
             LabelBrand = new Label();
             txtBrand = new TextBox();
+            tabPage4 = new TabPage();
+            panel4 = new Panel();
+            btnAddCarService = new Button();
+            btnDeleteCarService = new Button();
+            label2 = new Label();
+            txtMileage = new TextBox();
+            label1 = new Label();
+            dtServiceDate = new DateTimePicker();
+            cbServiceList = new Label();
+            comboBox1 = new ComboBox();
+            LabelCar = new Label();
+            cbCars = new ComboBox();
+            dataGridView1 = new DataGridView();
             tabPage3 = new TabPage();
             dgvServices = new DataGridView();
             panel3 = new Panel();
@@ -78,15 +78,15 @@
             LabelServiceName = new Label();
             Avaleht.SuspendLayout();
             tabPage5.SuspendLayout();
-            tabPage4.SuspendLayout();
-            panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvOwners).BeginInit();
             panel1.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCars).BeginInit();
             panel2.SuspendLayout();
+            tabPage4.SuspendLayout();
+            panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvServices).BeginInit();
             panel3.SuspendLayout();
@@ -147,133 +147,6 @@
             label3.Size = new Size(473, 114);
             label3.TabIndex = 0;
             label3.Text = "Autoteenindus";
-            // 
-            // tabPage4
-            // 
-            tabPage4.Controls.Add(panel4);
-            tabPage4.Controls.Add(dataGridView1);
-            tabPage4.Location = new Point(4, 24);
-            tabPage4.Name = "tabPage4";
-            tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(792, 421);
-            tabPage4.TabIndex = 3;
-            tabPage4.Text = "Hooldus";
-            tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // panel4
-            // 
-            panel4.BackColor = Color.LightSteelBlue;
-            panel4.Controls.Add(btnAddCarService);
-            panel4.Controls.Add(btnDeleteCarService);
-            panel4.Controls.Add(label2);
-            panel4.Controls.Add(txtMileage);
-            panel4.Controls.Add(label1);
-            panel4.Controls.Add(dtServiceDate);
-            panel4.Controls.Add(cbServiceList);
-            panel4.Controls.Add(comboBox1);
-            panel4.Controls.Add(LabelCar);
-            panel4.Controls.Add(cbCars);
-            panel4.Location = new Point(610, 0);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(185, 420);
-            panel4.TabIndex = 1;
-            // 
-            // btnAddCarService
-            // 
-            btnAddCarService.Location = new Point(7, 359);
-            btnAddCarService.Name = "btnAddCarService";
-            btnAddCarService.Size = new Size(80, 56);
-            btnAddCarService.TabIndex = 9;
-            btnAddCarService.Text = "Lisa hooldus";
-            btnAddCarService.UseVisualStyleBackColor = true;
-            // 
-            // btnDeleteCarService
-            // 
-            btnDeleteCarService.Location = new Point(93, 359);
-            btnDeleteCarService.Name = "btnDeleteCarService";
-            btnDeleteCarService.Size = new Size(80, 56);
-            btnDeleteCarService.TabIndex = 8;
-            btnDeleteCarService.Text = "Kustuta hooldus";
-            btnDeleteCarService.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(3, 161);
-            label2.Name = "label2";
-            label2.Size = new Size(48, 15);
-            label2.TabIndex = 7;
-            label2.Text = "Läbisõit";
-            // 
-            // txtMileage
-            // 
-            txtMileage.BorderStyle = BorderStyle.FixedSingle;
-            txtMileage.Location = new Point(3, 179);
-            txtMileage.Name = "txtMileage";
-            txtMileage.Size = new Size(170, 23);
-            txtMileage.TabIndex = 6;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 108);
-            label1.Name = "label1";
-            label1.Size = new Size(53, 15);
-            label1.TabIndex = 5;
-            label1.Text = "Kuupaev";
-            // 
-            // dtServiceDate
-            // 
-            dtServiceDate.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 186);
-            dtServiceDate.Format = DateTimePickerFormat.Short;
-            dtServiceDate.Location = new Point(3, 126);
-            dtServiceDate.MaxDate = new DateTime(2028, 12, 31, 0, 0, 0, 0);
-            dtServiceDate.MinDate = new DateTime(2025, 1, 1, 0, 0, 0, 0);
-            dtServiceDate.Name = "dtServiceDate";
-            dtServiceDate.Size = new Size(170, 22);
-            dtServiceDate.TabIndex = 4;
-            // 
-            // cbServiceList
-            // 
-            cbServiceList.AutoSize = true;
-            cbServiceList.Location = new Point(3, 54);
-            cbServiceList.Name = "cbServiceList";
-            cbServiceList.Size = new Size(44, 15);
-            cbServiceList.TabIndex = 3;
-            cbServiceList.Text = "Teenus";
-            // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(3, 72);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(170, 23);
-            comboBox1.TabIndex = 2;
-            // 
-            // LabelCar
-            // 
-            LabelCar.AutoSize = true;
-            LabelCar.Location = new Point(3, 3);
-            LabelCar.Name = "LabelCar";
-            LabelCar.Size = new Size(33, 15);
-            LabelCar.TabIndex = 1;
-            LabelCar.Text = "Auto";
-            // 
-            // cbCars
-            // 
-            cbCars.FormattingEnabled = true;
-            cbCars.Location = new Point(3, 21);
-            cbCars.Name = "cbCars";
-            cbCars.Size = new Size(170, 23);
-            cbCars.TabIndex = 0;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(0, 0);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(604, 421);
-            dataGridView1.TabIndex = 0;
             // 
             // tabPage1
             // 
@@ -411,6 +284,7 @@
             btnAddCar.TabIndex = 8;
             btnAddCar.Text = "Lisa auto";
             btnAddCar.UseVisualStyleBackColor = true;
+            btnAddCar.Click += btnAddCar_Click;
             // 
             // btnDeleteCar
             // 
@@ -420,6 +294,7 @@
             btnDeleteCar.TabIndex = 2;
             btnDeleteCar.Text = "Kustuta auto";
             btnDeleteCar.UseVisualStyleBackColor = true;
+            btnDeleteCar.Click += btnDeleteCar_Click;
             // 
             // LabelOwner2
             // 
@@ -489,6 +364,135 @@
             txtBrand.Size = new Size(173, 23);
             txtBrand.TabIndex = 0;
             // 
+            // tabPage4
+            // 
+            tabPage4.Controls.Add(panel4);
+            tabPage4.Controls.Add(dataGridView1);
+            tabPage4.Location = new Point(4, 24);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Padding = new Padding(3);
+            tabPage4.Size = new Size(792, 421);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "Hooldus";
+            tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.LightSteelBlue;
+            panel4.Controls.Add(btnAddCarService);
+            panel4.Controls.Add(btnDeleteCarService);
+            panel4.Controls.Add(label2);
+            panel4.Controls.Add(txtMileage);
+            panel4.Controls.Add(label1);
+            panel4.Controls.Add(dtServiceDate);
+            panel4.Controls.Add(cbServiceList);
+            panel4.Controls.Add(comboBox1);
+            panel4.Controls.Add(LabelCar);
+            panel4.Controls.Add(cbCars);
+            panel4.Location = new Point(610, 0);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(185, 420);
+            panel4.TabIndex = 1;
+            // 
+            // btnAddCarService
+            // 
+            btnAddCarService.Location = new Point(7, 359);
+            btnAddCarService.Name = "btnAddCarService";
+            btnAddCarService.Size = new Size(80, 56);
+            btnAddCarService.TabIndex = 9;
+            btnAddCarService.Text = "Lisa hooldus";
+            btnAddCarService.UseVisualStyleBackColor = true;
+            btnAddCarService.Click += btnAddCarService_Click;
+            // 
+            // btnDeleteCarService
+            // 
+            btnDeleteCarService.Location = new Point(93, 359);
+            btnDeleteCarService.Name = "btnDeleteCarService";
+            btnDeleteCarService.Size = new Size(80, 56);
+            btnDeleteCarService.TabIndex = 8;
+            btnDeleteCarService.Text = "Kustuta hooldus";
+            btnDeleteCarService.UseVisualStyleBackColor = true;
+            btnDeleteCarService.Click += btnDeleteCarService_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(3, 161);
+            label2.Name = "label2";
+            label2.Size = new Size(48, 15);
+            label2.TabIndex = 7;
+            label2.Text = "Läbisõit";
+            // 
+            // txtMileage
+            // 
+            txtMileage.BorderStyle = BorderStyle.FixedSingle;
+            txtMileage.Location = new Point(3, 179);
+            txtMileage.Name = "txtMileage";
+            txtMileage.Size = new Size(170, 23);
+            txtMileage.TabIndex = 6;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(3, 108);
+            label1.Name = "label1";
+            label1.Size = new Size(53, 15);
+            label1.TabIndex = 5;
+            label1.Text = "Kuupaev";
+            // 
+            // dtServiceDate
+            // 
+            dtServiceDate.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 186);
+            dtServiceDate.Format = DateTimePickerFormat.Short;
+            dtServiceDate.Location = new Point(3, 126);
+            dtServiceDate.MaxDate = new DateTime(2028, 12, 31, 0, 0, 0, 0);
+            dtServiceDate.MinDate = new DateTime(2025, 1, 1, 0, 0, 0, 0);
+            dtServiceDate.Name = "dtServiceDate";
+            dtServiceDate.Size = new Size(170, 22);
+            dtServiceDate.TabIndex = 4;
+            // 
+            // cbServiceList
+            // 
+            cbServiceList.AutoSize = true;
+            cbServiceList.Location = new Point(3, 54);
+            cbServiceList.Name = "cbServiceList";
+            cbServiceList.Size = new Size(44, 15);
+            cbServiceList.TabIndex = 3;
+            cbServiceList.Text = "Teenus";
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(3, 72);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(170, 23);
+            comboBox1.TabIndex = 2;
+            // 
+            // LabelCar
+            // 
+            LabelCar.AutoSize = true;
+            LabelCar.Location = new Point(3, 3);
+            LabelCar.Name = "LabelCar";
+            LabelCar.Size = new Size(33, 15);
+            LabelCar.TabIndex = 1;
+            LabelCar.Text = "Auto";
+            // 
+            // cbCars
+            // 
+            cbCars.FormattingEnabled = true;
+            cbCars.Location = new Point(3, 21);
+            cbCars.Name = "cbCars";
+            cbCars.Size = new Size(170, 23);
+            cbCars.TabIndex = 0;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(0, 0);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(604, 421);
+            dataGridView1.TabIndex = 0;
+            // 
             // tabPage3
             // 
             tabPage3.Controls.Add(dgvServices);
@@ -530,6 +534,7 @@
             btnAddService.TabIndex = 4;
             btnAddService.Text = "Lisa teenus";
             btnAddService.UseVisualStyleBackColor = true;
+            btnAddService.Click += btnAddService_Click;
             // 
             // txtServicePrice
             // 
@@ -577,10 +582,6 @@
             Avaleht.ResumeLayout(false);
             tabPage5.ResumeLayout(false);
             tabPage5.PerformLayout();
-            tabPage4.ResumeLayout(false);
-            panel4.ResumeLayout(false);
-            panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvOwners).EndInit();
             panel1.ResumeLayout(false);
@@ -589,6 +590,10 @@
             ((System.ComponentModel.ISupportInitialize)dgvCars).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            tabPage4.ResumeLayout(false);
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvServices).EndInit();
             panel3.ResumeLayout(false);
