@@ -70,8 +70,8 @@ namespace DBautodMilan.Migrations
                     CarId = table.Column<int>(type: "int", nullable: false),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
                     DateOfService = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Mileage = table.Column<int>(type: "int", nullable: false),
-                    Completed = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    Labisoit = table.Column<int>(type: "int", nullable: false),
+                    Valmis = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     PriceCharged = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m)
                 },
                 constraints: table =>

@@ -31,8 +31,8 @@
             Avaleht = new TabControl();
             tabPage5 = new TabPage();
             label5 = new Label();
-            label4 = new Label();
             label3 = new Label();
+            label4 = new Label();
             tabPage1 = new TabPage();
             dgvOwners = new DataGridView();
             panel1 = new Panel();
@@ -57,6 +57,9 @@
             txtBrand = new TextBox();
             tabPage4 = new TabPage();
             panel4 = new Panel();
+            btnResetCarFilter = new Button();
+            Aeg = new Label();
+            cbServiceTime = new ComboBox();
             btnAddCarService = new Button();
             btnDeleteCarService = new Button();
             label2 = new Label();
@@ -71,13 +74,12 @@
             tabPage3 = new TabPage();
             dgvServices = new DataGridView();
             panel3 = new Panel();
+            btnRemService = new Button();
             btnAddService = new Button();
             txtServicePrice = new TextBox();
             LabelServicePrice = new Label();
             txtServiceName = new TextBox();
             LabelServiceName = new Label();
-            cbServiceTime = new ComboBox();
-            Aeg = new Label();
             Avaleht.SuspendLayout();
             tabPage5.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -104,18 +106,18 @@
             Avaleht.Location = new Point(1, 0);
             Avaleht.Name = "Avaleht";
             Avaleht.SelectedIndex = 0;
-            Avaleht.Size = new Size(800, 449);
+            Avaleht.Size = new Size(1209, 653);
             Avaleht.TabIndex = 0;
             // 
             // tabPage5
             // 
             tabPage5.BackgroundImage = Properties.Resources.avaleht;
             tabPage5.Controls.Add(label5);
-            tabPage5.Controls.Add(label4);
             tabPage5.Controls.Add(label3);
+            tabPage5.Controls.Add(label4);
             tabPage5.Location = new Point(4, 24);
             tabPage5.Name = "tabPage5";
-            tabPage5.Size = new Size(792, 421);
+            tabPage5.Size = new Size(1201, 625);
             tabPage5.TabIndex = 4;
             tabPage5.Text = "Avaleht";
             tabPage5.UseVisualStyleBackColor = true;
@@ -129,26 +131,26 @@
             label5.TabIndex = 2;
             label5.Text = "© Milan Petrovski TarPV24";
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(41, 204);
-            label4.Name = "label4";
-            label4.Size = new Size(243, 20);
-            label4.TabIndex = 1;
-            label4.Text = "Vali midagi navigeermise menüüs";
-            // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Microsoft Sans Serif", 72F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            label3.Font = new Font("MS Gothic", 72F, FontStyle.Italic, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(18, 110);
+            label3.Location = new Point(19, 95);
             label3.Name = "label3";
-            label3.Size = new Size(656, 108);
+            label3.Size = new Size(666, 97);
             label3.TabIndex = 0;
             label3.Text = "Autoteenindus";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe Script", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(41, 204);
+            label4.Name = "label4";
+            label4.Size = new Size(298, 25);
+            label4.TabIndex = 1;
+            label4.Text = "Vali midagi navigeermise menüüs";
             // 
             // tabPage1
             // 
@@ -157,7 +159,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(792, 421);
+            tabPage1.Size = new Size(1201, 625);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Omanikud";
             tabPage1.UseVisualStyleBackColor = true;
@@ -167,7 +169,7 @@
             dgvOwners.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvOwners.Location = new Point(0, 0);
             dgvOwners.Name = "dgvOwners";
-            dgvOwners.Size = new Size(604, 421);
+            dgvOwners.Size = new Size(1010, 625);
             dgvOwners.TabIndex = 3;
             // 
             // panel1
@@ -180,15 +182,15 @@
             panel1.Controls.Add(labelOwner);
             panel1.Controls.Add(btnDeleteOwner);
             panel1.Controls.Add(txtOwnerName);
-            panel1.Location = new Point(610, 0);
+            panel1.Location = new Point(1016, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(185, 420);
+            panel1.Size = new Size(185, 625);
             panel1.TabIndex = 2;
             // 
             // btnAddOwner
             // 
             btnAddOwner.AccessibleName = "";
-            btnAddOwner.Location = new Point(6, 357);
+            btnAddOwner.Location = new Point(3, 562);
             btnAddOwner.Name = "btnAddOwner";
             btnAddOwner.Size = new Size(80, 56);
             btnAddOwner.TabIndex = 11;
@@ -224,7 +226,7 @@
             // 
             // btnDeleteOwner
             // 
-            btnDeleteOwner.Location = new Point(94, 357);
+            btnDeleteOwner.Location = new Point(89, 562);
             btnDeleteOwner.Name = "btnDeleteOwner";
             btnDeleteOwner.Size = new Size(80, 56);
             btnDeleteOwner.TabIndex = 7;
@@ -247,7 +249,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(792, 421);
+            tabPage2.Size = new Size(1201, 625);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Autod";
             tabPage2.UseVisualStyleBackColor = true;
@@ -257,7 +259,7 @@
             dgvCars.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCars.Location = new Point(0, 0);
             dgvCars.Name = "dgvCars";
-            dgvCars.Size = new Size(604, 421);
+            dgvCars.Size = new Size(1010, 619);
             dgvCars.TabIndex = 1;
             // 
             // panel2
@@ -273,14 +275,14 @@
             panel2.Controls.Add(txtModel);
             panel2.Controls.Add(LabelBrand);
             panel2.Controls.Add(txtBrand);
-            panel2.Location = new Point(610, 0);
+            panel2.Location = new Point(1016, 1);
             panel2.Name = "panel2";
-            panel2.Size = new Size(185, 420);
+            panel2.Size = new Size(185, 624);
             panel2.TabIndex = 0;
             // 
             // btnAddCar
             // 
-            btnAddCar.Location = new Point(7, 358);
+            btnAddCar.Location = new Point(10, 562);
             btnAddCar.Name = "btnAddCar";
             btnAddCar.Size = new Size(80, 56);
             btnAddCar.TabIndex = 8;
@@ -290,7 +292,7 @@
             // 
             // btnDeleteCar
             // 
-            btnDeleteCar.Location = new Point(93, 358);
+            btnDeleteCar.Location = new Point(96, 562);
             btnDeleteCar.Name = "btnDeleteCar";
             btnDeleteCar.Size = new Size(80, 56);
             btnDeleteCar.TabIndex = 2;
@@ -373,7 +375,7 @@
             tabPage4.Location = new Point(4, 24);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(792, 421);
+            tabPage4.Size = new Size(1201, 625);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Hooldus";
             tabPage4.UseVisualStyleBackColor = true;
@@ -381,6 +383,7 @@
             // panel4
             // 
             panel4.BackColor = Color.LightSteelBlue;
+            panel4.Controls.Add(btnResetCarFilter);
             panel4.Controls.Add(Aeg);
             panel4.Controls.Add(cbServiceTime);
             panel4.Controls.Add(btnAddCarService);
@@ -393,14 +396,41 @@
             panel4.Controls.Add(comboBox1);
             panel4.Controls.Add(LabelCar);
             panel4.Controls.Add(cbCars);
-            panel4.Location = new Point(610, 0);
+            panel4.Location = new Point(1016, -1);
             panel4.Name = "panel4";
-            panel4.Size = new Size(185, 420);
+            panel4.Size = new Size(185, 626);
             panel4.TabIndex = 1;
+            // 
+            // btnResetCarFilter
+            // 
+            btnResetCarFilter.Location = new Point(9, 535);
+            btnResetCarFilter.Name = "btnResetCarFilter";
+            btnResetCarFilter.Size = new Size(164, 23);
+            btnResetCarFilter.TabIndex = 12;
+            btnResetCarFilter.Text = "Kustuta filtrid";
+            btnResetCarFilter.UseVisualStyleBackColor = true;
+            btnResetCarFilter.Click += btnResetCarFilter_Click;
+            // 
+            // Aeg
+            // 
+            Aeg.AutoSize = true;
+            Aeg.Location = new Point(3, 158);
+            Aeg.Name = "Aeg";
+            Aeg.Size = new Size(28, 15);
+            Aeg.TabIndex = 11;
+            Aeg.Text = "Aeg";
+            // 
+            // cbServiceTime
+            // 
+            cbServiceTime.FormattingEnabled = true;
+            cbServiceTime.Location = new Point(3, 176);
+            cbServiceTime.Name = "cbServiceTime";
+            cbServiceTime.Size = new Size(168, 23);
+            cbServiceTime.TabIndex = 10;
             // 
             // btnAddCarService
             // 
-            btnAddCarService.Location = new Point(7, 359);
+            btnAddCarService.Location = new Point(7, 564);
             btnAddCarService.Name = "btnAddCarService";
             btnAddCarService.Size = new Size(80, 56);
             btnAddCarService.TabIndex = 9;
@@ -410,7 +440,7 @@
             // 
             // btnDeleteCarService
             // 
-            btnDeleteCarService.Location = new Point(93, 359);
+            btnDeleteCarService.Location = new Point(93, 564);
             btnDeleteCarService.Name = "btnDeleteCarService";
             btnDeleteCarService.Size = new Size(80, 56);
             btnDeleteCarService.TabIndex = 8;
@@ -494,7 +524,7 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(604, 421);
+            dataGridView1.Size = new Size(1010, 622);
             dataGridView1.TabIndex = 0;
             // 
             // tabPage3
@@ -504,7 +534,7 @@
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(792, 421);
+            tabPage3.Size = new Size(1201, 625);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Teenus";
             tabPage3.UseVisualStyleBackColor = true;
@@ -514,25 +544,36 @@
             dgvServices.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvServices.Location = new Point(0, 0);
             dgvServices.Name = "dgvServices";
-            dgvServices.Size = new Size(604, 421);
+            dgvServices.Size = new Size(1010, 622);
             dgvServices.TabIndex = 1;
             // 
             // panel3
             // 
             panel3.BackColor = Color.LightSteelBlue;
+            panel3.Controls.Add(btnRemService);
             panel3.Controls.Add(btnAddService);
             panel3.Controls.Add(txtServicePrice);
             panel3.Controls.Add(LabelServicePrice);
             panel3.Controls.Add(txtServiceName);
             panel3.Controls.Add(LabelServiceName);
-            panel3.Location = new Point(610, 0);
+            panel3.Location = new Point(1016, 2);
             panel3.Name = "panel3";
-            panel3.Size = new Size(185, 421);
+            panel3.Size = new Size(185, 620);
             panel3.TabIndex = 0;
+            // 
+            // btnRemService
+            // 
+            btnRemService.Location = new Point(9, 517);
+            btnRemService.Name = "btnRemService";
+            btnRemService.Size = new Size(173, 47);
+            btnRemService.TabIndex = 5;
+            btnRemService.Text = "Kustuta teenus";
+            btnRemService.UseVisualStyleBackColor = true;
+            btnRemService.Click += btnRemService_Click;
             // 
             // btnAddService
             // 
-            btnAddService.Location = new Point(5, 370);
+            btnAddService.Location = new Point(9, 570);
             btnAddService.Name = "btnAddService";
             btnAddService.Size = new Size(173, 47);
             btnAddService.TabIndex = 4;
@@ -574,29 +615,11 @@
             LabelServiceName.TabIndex = 0;
             LabelServiceName.Text = "Teenuse nimi";
             // 
-            // cbServiceTime
-            // 
-            cbServiceTime.FormattingEnabled = true;
-            cbServiceTime.Location = new Point(3, 176);
-            cbServiceTime.Name = "cbServiceTime";
-            cbServiceTime.Size = new Size(168, 23);
-            cbServiceTime.TabIndex = 10;
-            // 
-            // Aeg
-            // 
-            Aeg.AutoSize = true;
-            Aeg.Location = new Point(3, 158);
-            Aeg.Name = "Aeg";
-            Aeg.Size = new Size(28, 15);
-            Aeg.TabIndex = 11;
-            Aeg.Text = "Aeg";
-            Aeg.Click += label6_Click;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1222, 665);
             Controls.Add(Avaleht);
             Name = "Form1";
             Text = "Form1";
@@ -669,11 +692,13 @@
         private Label LabelCar;
         private ComboBox cbCars;
         private Button btnAddCarService;
-        private TabPage tabPage5;
-        private Label label4;
-        private Label label3;
-        private Label label5;
         private ComboBox cbServiceTime;
         private Label Aeg;
+        private TabPage tabPage5;
+        private Label label5;
+        private Label label3;
+        private Label label4;
+        private Button btnRemService;
+        private Button btnResetCarFilter;
     }
 }

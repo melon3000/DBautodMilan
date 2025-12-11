@@ -9,7 +9,6 @@ namespace DBautodMilan
 {
     public partial class Form1 : Form
     {
-        // Конфигурация временных слотов — можно менять
         private readonly TimeSpan SlotStep = TimeSpan.FromMinutes(30);
         private readonly TimeSpan WorkDayStart = TimeSpan.FromHours(8); // 08:00
         private readonly TimeSpan WorkDayEnd = TimeSpan.FromHours(18);  // 18:00
@@ -23,18 +22,16 @@ namespace DBautodMilan
             dgvOwners.CellClick += dgvOwners_CellClick;
             dgvCars.CellClick += dgvCars_CellClick;
 
-            // Подписываемся на изменение даты/машины для обновления временных слотов
             dtServiceDate.ValueChanged += DtServiceDate_ValueChanged;
             cbCars.SelectedValueChanged += CbCars_SelectedValueChanged;
         }
 
-        // Вспомогательная запись для биндинга слотов
         private sealed class TimeSlot
         {
             public DateTime Value { get; init; }
             public bool IsBooked { get; init; }
             public bool IsPast { get; init; }
-            public string Display => $"{Value:HH:mm}" + (IsBooked ? " — занято" : (IsPast ? " — прошло" : ""));
+            public string Display => $"{Value:HH:mm}" + (IsBooked ? " — hõivatud" : (IsPast ? " — Läbi" : ""));
         }
 
         // ============================================================
@@ -47,8 +44,6 @@ namespace DBautodMilan
             LoadServices();
             LoadCarServices();
             LoadCombos();
-
-            // Инициализация слотов для текущей даты
             TryLoadTimeSlots();
         }
 
@@ -68,7 +63,6 @@ namespace DBautodMilan
             comboBox1.DisplayMember = "Name";
             comboBox1.ValueMember = "Id";
         }
-
         // ============================================================
         // LOAD GRID FUNCTIONS
         // ============================================================
@@ -129,14 +123,14 @@ namespace DBautodMilan
             var now = DateTime.Now;
             var toComplete = db.CarServices
                               .Include(cs => cs.Service)
-                              .Where(cs => cs.DateOfService <= now && !cs.Completed)
+                              .Where(cs => cs.DateOfService <= now && !cs.Valmis)
                               .ToList();
 
             if (toComplete.Any())
             {
                 foreach (var cs in toComplete)
                 {
-                    cs.Completed = true;
+                    cs.Valmis = true;
                     cs.PriceCharged = cs.Service?.Price ?? 0m;
                 }
 
@@ -163,8 +157,8 @@ namespace DBautodMilan
                     Car = cs.Car.RegistrationNumber,
                     Service = cs.Service.Name,
                     cs.DateOfService,
-                    cs.Mileage,
-                    cs.Completed,
+                    cs.Labisoit,
+                    cs.Valmis,
                     Price = cs.PriceCharged
                 })
                 .OrderByDescending(cs => cs.DateOfService)
@@ -209,8 +203,8 @@ namespace DBautodMilan
                     Car = cs.Car.RegistrationNumber,
                     Service = cs.Service.Name,
                     cs.DateOfService,
-                    cs.Mileage,
-                    cs.Completed,
+                    cs.Labisoit,
+                    cs.Valmis,
                     Price = cs.PriceCharged
                 })
                 .OrderBy(cs => cs.DateOfService)
@@ -319,6 +313,7 @@ namespace DBautodMilan
 
             LoadCars();
             LoadCombos();
+            LoadOwners();
         }
 
         private void btnDeleteCar_Click(object sender, EventArgs e)
@@ -353,6 +348,7 @@ namespace DBautodMilan
 
             LoadCars();
             LoadCombos();
+            LoadOwners();
         }
 
         // ============================================================
@@ -364,33 +360,33 @@ namespace DBautodMilan
 
             if (cbCars.SelectedValue is not int carId)
             {
-                MessageBox.Show("Выберите машину.");
+                MessageBox.Show("Vali auto.");
                 return;
             }
 
             if (comboBox1.SelectedValue is not int serviceId)
             {
-                MessageBox.Show("Выберите услугу.");
+                MessageBox.Show("Vali teenus.");
                 return;
             }
 
             if (cbServiceTime?.SelectedItem is not TimeSlot selectedSlot)
             {
-                MessageBox.Show("Выберите время из списка.");
+                MessageBox.Show("Vali aeg.");
                 return;
             }
 
             // запрет выбора занятых слотов
             if (selectedSlot.IsBooked)
             {
-                MessageBox.Show("Выбранное время уже занято.");
+                MessageBox.Show("Valitud aeg on juba broneeritud.");
                 return;
             }
 
             // валидируем пробег
             if (!int.TryParse(txtMileage.Text.Trim(), out int mileage) || mileage < 0)
             {
-                MessageBox.Show("Введите корректный пробег (целое неотрицательное число).");
+                MessageBox.Show("Siseta labisoit.");
                 return;
             }
 
@@ -402,9 +398,9 @@ namespace DBautodMilan
                 CarId = carId,
                 ServiceId = serviceId,
                 DateOfService = selectedSlot.Value,
-                Mileage = mileage,
+                Labisoit = mileage,
                 // Если уже прошла — ставим Completed и кешируем цену
-                Completed = selectedSlot.Value <= DateTime.Now,
+                Valmis = selectedSlot.Value <= DateTime.Now,
                 PriceCharged = (selectedSlot.Value <= DateTime.Now) ? (svc?.Price ?? 0m) : 0m
             };
 
@@ -493,6 +489,53 @@ namespace DBautodMilan
         }
 
         // ============================================================
+        // New: remove selected service with safety checks
+        // ============================================================
+        private void btnRemService_Click(object sender, EventArgs e)
+        {
+            // Validate selection
+            if (dgvServices.CurrentRow == null) return;
+
+            if (dgvServices.CurrentRow.Cells["Id"].Value is not int id) return;
+
+            using var db = new AutoDbContext();
+
+            // Load service including any related CarServices to check references
+            var service = db.Services
+                            .Include(s => s.CarServices)
+                            .FirstOrDefault(s => s.Id == id);
+
+            if (service == null) return;
+
+            // Prevent deletion if there are dependent records
+            if (service.CarServices != null && service.CarServices.Any())
+            {
+                MessageBox.Show("Нельзя удалить услугу — есть связанные записи о сервисе.");
+                return;
+            }
+
+            // Confirm deletion with user
+            var res = MessageBox.Show($"Удалить услугу \"{service.Name}\"?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res != DialogResult.Yes) return;
+
+            db.Services.Remove(service);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении услуги: {ex.Message}");
+                return;
+            }
+
+            // Refresh UI
+            LoadServices();
+            LoadCombos();
+        }
+
+        // ============================================================
         // Временные слоты
         // ============================================================
         private void DtServiceDate_ValueChanged(object? sender, EventArgs e)
@@ -531,6 +574,11 @@ namespace DBautodMilan
             for (var t = WorkDayStart; t <= WorkDayEnd; t = t.Add(SlotStep))
             {
                 var slotDt = date.Date + t;
+
+                // Не показываем слоты, если время уже прошло
+                if (slotDt <= DateTime.Now)
+                    continue;
+
                 bool isBooked = db.CarServices.Any(cs => cs.DateOfService == slotDt && cs.CarId != selectedCarId);
                 bool isPast = slotDt <= DateTime.Now;
                 slots.Add(new TimeSlot { Value = slotDt, IsBooked = isBooked, IsPast = isPast });
@@ -540,13 +588,21 @@ namespace DBautodMilan
             cbServiceTime.DisplayMember = "Display";
             cbServiceTime.ValueMember = "Value";
 
-            // если выбран слот помечен как занятый — блокируем выбор (оставляем, но не разрешаем прием)
-            // Удобно — визуально видно "— занято" в тексте.
         }
 
-        private void label6_Click(object sender, EventArgs e)
+        private void btnResetCarFilter_Click(object sender, EventArgs e)
         {
+            try
+            {
+                dgvCars.ClearSelection();
+            }
+            catch
+            {
+                // ignore if grid not initialized
+            }
 
+            LoadCarServices();
+            Avaleht.SelectedTab = tabPage4;
         }
     }
 }

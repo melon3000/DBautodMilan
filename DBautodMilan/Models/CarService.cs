@@ -20,10 +20,10 @@ namespace DBautodMilan.Models
         public DateTime DateOfService { get; set; }
 
         [Range(0, int.MaxValue)]
-        public int Mileage { get; set; }
+        public int Labisoit { get; set; }
 
         // Признак, что сервис уже проведён
-        public bool Completed { get; set; }
+        public bool Valmis { get; set; }
 
         // Цена за услугу в момент выполнения (кешируем цену, чтобы исторически хранить стоимость)
         [Range(0, (double)decimal.MaxValue)]
