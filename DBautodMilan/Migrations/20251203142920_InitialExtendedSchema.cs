@@ -65,14 +65,18 @@ namespace DBautodMilan.Migrations
                 name: "CarServices",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CarId = table.Column<int>(type: "int", nullable: false),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
                     DateOfService = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Mileage = table.Column<int>(type: "int", nullable: false)
+                    Mileage = table.Column<int>(type: "int", nullable: false),
+                    Completed = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    PriceCharged = table.Column<decimal>(type: "decimal(18,2)", nullable: false, defaultValue: 0m)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CarServices", x => new { x.CarId, x.ServiceId, x.DateOfService });
+                    table.PrimaryKey("PK_CarServices", x => x.Id);
                     table.ForeignKey(
                         name: "FK_CarServices_Cars_CarId",
                         column: x => x.CarId,

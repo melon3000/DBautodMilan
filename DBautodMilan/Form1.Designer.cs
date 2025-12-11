@@ -76,6 +76,8 @@
             LabelServicePrice = new Label();
             txtServiceName = new TextBox();
             LabelServiceName = new Label();
+            cbServiceTime = new ComboBox();
+            Aeg = new Label();
             Avaleht.SuspendLayout();
             tabPage5.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -130,21 +132,21 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Tw Cen MT Condensed Extra Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.Location = new Point(41, 204);
             label4.Name = "label4";
-            label4.Size = new Size(218, 20);
+            label4.Size = new Size(243, 20);
             label4.TabIndex = 1;
             label4.Text = "Vali midagi navigeermise menüüs";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Vivaldi", 72F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Microsoft Sans Serif", 72F, FontStyle.Italic, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
             label3.Location = new Point(18, 110);
             label3.Name = "label3";
-            label3.Size = new Size(473, 114);
+            label3.Size = new Size(656, 108);
             label3.TabIndex = 0;
             label3.Text = "Autoteenindus";
             // 
@@ -379,6 +381,8 @@
             // panel4
             // 
             panel4.BackColor = Color.LightSteelBlue;
+            panel4.Controls.Add(Aeg);
+            panel4.Controls.Add(cbServiceTime);
             panel4.Controls.Add(btnAddCarService);
             panel4.Controls.Add(btnDeleteCarService);
             panel4.Controls.Add(label2);
@@ -417,7 +421,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(3, 161);
+            label2.Location = new Point(3, 214);
             label2.Name = "label2";
             label2.Size = new Size(48, 15);
             label2.TabIndex = 7;
@@ -426,7 +430,7 @@
             // txtMileage
             // 
             txtMileage.BorderStyle = BorderStyle.FixedSingle;
-            txtMileage.Location = new Point(3, 179);
+            txtMileage.Location = new Point(3, 232);
             txtMileage.Name = "txtMileage";
             txtMileage.Size = new Size(170, 23);
             txtMileage.TabIndex = 6;
@@ -570,6 +574,24 @@
             LabelServiceName.TabIndex = 0;
             LabelServiceName.Text = "Teenuse nimi";
             // 
+            // cbServiceTime
+            // 
+            cbServiceTime.FormattingEnabled = true;
+            cbServiceTime.Location = new Point(3, 176);
+            cbServiceTime.Name = "cbServiceTime";
+            cbServiceTime.Size = new Size(168, 23);
+            cbServiceTime.TabIndex = 10;
+            // 
+            // Aeg
+            // 
+            Aeg.AutoSize = true;
+            Aeg.Location = new Point(3, 158);
+            Aeg.Name = "Aeg";
+            Aeg.Size = new Size(28, 15);
+            Aeg.TabIndex = 11;
+            Aeg.Text = "Aeg";
+            Aeg.Click += label6_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -651,5 +673,7 @@
         private Label label4;
         private Label label3;
         private Label label5;
+        private ComboBox cbServiceTime;
+        private Label Aeg;
     }
 }
