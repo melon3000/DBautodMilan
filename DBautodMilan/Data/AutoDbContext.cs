@@ -20,8 +20,6 @@ namespace DBautodMilan.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Use Id as primary key (CarService.Id exists on the model)
-            // Remove the composite key to match the CarService model that contains Id.
             modelBuilder.Entity<CarService>()
                 .HasKey(cs => cs.Id);
 
