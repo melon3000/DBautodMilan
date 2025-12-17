@@ -24,6 +24,8 @@ namespace DBautodMilan
 
             dtServiceDate.ValueChanged += DtServiceDate_ValueChanged;
             cbCars.SelectedValueChanged += CbCars_SelectedValueChanged;
+
+            SetupSortCombos();
         }
 
         private sealed class TimeSlot
@@ -34,9 +36,6 @@ namespace DBautodMilan
             public string Display => $"{Value:HH:mm}" + (IsBooked ? " — hõivatud" : (IsPast ? " — Läbi" : ""));
         }
 
-        // ============================================================
-        // MAIN LOAD
-        // ============================================================
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadOwners();
@@ -63,9 +62,7 @@ namespace DBautodMilan
             comboBox1.DisplayMember = "Name";
             comboBox1.ValueMember = "Id";
         }
-        // ============================================================
-        // LOAD GRID FUNCTIONS
-        // ============================================================
+
         private void LoadOwners()
         {
             using var db = new AutoDbContext();
@@ -114,23 +111,21 @@ namespace DBautodMilan
                 .ToList();
         }
 
-        // загрузка всех сервисов (с обновлением статусов прошедших записей)
         private void LoadCarServices()
         {
             using var db = new AutoDbContext();
 
-            // Автоматически помечаем прошедшие записи как выполненные и кешируем цену (если ещё не кеширована)
             var now = DateTime.Now;
             var toComplete = db.CarServices
                               .Include(cs => cs.Service)
-                              .Where(cs => cs.DateOfService <= now && !cs.Valmis)
+                              .Where(cs => cs.DateOfService <= now && !cs.Done)
                               .ToList();
 
             if (toComplete.Any())
             {
                 foreach (var cs in toComplete)
                 {
-                    cs.Valmis = true;
+                    cs.Done = true;
                     cs.PriceCharged = cs.Service?.Price ?? 0m;
                 }
 
@@ -140,7 +135,6 @@ namespace DBautodMilan
                 }
                 catch (Exception ex)
                 {
-                    // Легкое логирование — не ломаем UI, но информируем
                     MessageBox.Show($"Не удалось обновить статус прошедших записей: {ex.Message}");
                 }
             }
@@ -157,19 +151,14 @@ namespace DBautodMilan
                     Car = cs.Car.RegistrationNumber,
                     Service = cs.Service.Name,
                     cs.DateOfService,
-                    cs.Labisoit,
-                    cs.Valmis,
+                    cs.Mileage,
+                    cs.Done,
                     Price = cs.PriceCharged
                 })
                 .OrderByDescending(cs => cs.DateOfService)
                 .ToList();
         }
 
-        // ============================================================
-        //   🔵 CLICK events — переходы между вкладками
-        // ============================================================
-
-        // ✔ Клик на владельца → переход на вкладку AUTOD с фильтром
         private void dgvOwners_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dgvOwners.CurrentRow == null) return;
@@ -181,7 +170,6 @@ namespace DBautodMilan
             Avaleht.SelectedTab = tabPage2;
         }
 
-        // ✔ Клик на машину → переход к Hooldus и показ сервисов этой машины
         private void dgvCars_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dgvCars.CurrentRow == null) return;
@@ -203,8 +191,8 @@ namespace DBautodMilan
                     Car = cs.Car.RegistrationNumber,
                     Service = cs.Service.Name,
                     cs.DateOfService,
-                    cs.Labisoit,
-                    cs.Valmis,
+                    cs.Mileage,
+                    cs.Done,
                     Price = cs.PriceCharged
                 })
                 .OrderBy(cs => cs.DateOfService)
@@ -213,9 +201,6 @@ namespace DBautodMilan
             Avaleht.SelectedTab = tabPage4;
         }
 
-        // ============================================================
-        // CRUD владельцев
-        // ============================================================
         private void btnAddOwner_Click(object sender, EventArgs e)
         {
             using var db = new AutoDbContext();
@@ -280,9 +265,6 @@ namespace DBautodMilan
             LoadCombos();
         }
 
-        // ============================================================
-        // CRUD машин
-        // ============================================================
         private void btnAddCar_Click(object sender, EventArgs e)
         {
             using var db = new AutoDbContext();
@@ -350,10 +332,6 @@ namespace DBautodMilan
             LoadCombos();
             LoadOwners();
         }
-
-        // ============================================================
-        // CRUD обслуживания
-        // ============================================================
         private void btnAddCarService_Click(object sender, EventArgs e)
         {
             using var db = new AutoDbContext();
@@ -376,21 +354,18 @@ namespace DBautodMilan
                 return;
             }
 
-            // запрет выбора занятых слотов
             if (selectedSlot.IsBooked)
             {
                 MessageBox.Show("Valitud aeg on juba broneeritud.");
                 return;
             }
 
-            // валидируем пробег
             if (!int.TryParse(txtMileage.Text.Trim(), out int mileage) || mileage < 0)
             {
                 MessageBox.Show("Siseta labisoit.");
                 return;
             }
 
-            // создаём запись
             var svc = db.Services.FirstOrDefault(s => s.Id == serviceId);
 
             var carService = new CarService
@@ -398,9 +373,8 @@ namespace DBautodMilan
                 CarId = carId,
                 ServiceId = serviceId,
                 DateOfService = selectedSlot.Value,
-                Labisoit = mileage,
-                // Если уже прошла — ставим Completed и кешируем цену
-                Valmis = selectedSlot.Value <= DateTime.Now,
+                Mileage = mileage,
+                Done = selectedSlot.Value <= DateTime.Now,
                 PriceCharged = (selectedSlot.Value <= DateTime.Now) ? (svc?.Price ?? 0m) : 0m
             };
 
@@ -417,7 +391,6 @@ namespace DBautodMilan
             }
 
             LoadCarServices();
-            // обновляем слоты — выбранный слот теперь будет помечен как занятый
             TryLoadTimeSlots();
         }
 
@@ -488,9 +461,6 @@ namespace DBautodMilan
             txtServicePrice.Clear();
         }
 
-        // ============================================================
-        // New: remove selected service with safety checks
-        // ============================================================
         private void btnRemService_Click(object sender, EventArgs e)
         {
             // Validate selection
@@ -500,21 +470,18 @@ namespace DBautodMilan
 
             using var db = new AutoDbContext();
 
-            // Load service including any related CarServices to check references
             var service = db.Services
                             .Include(s => s.CarServices)
                             .FirstOrDefault(s => s.Id == id);
 
             if (service == null) return;
 
-            // Prevent deletion if there are dependent records
             if (service.CarServices != null && service.CarServices.Any())
             {
                 MessageBox.Show("Нельзя удалить услугу — есть связанные записи о сервисе.");
                 return;
             }
 
-            // Confirm deletion with user
             var res = MessageBox.Show($"Удалить услугу \"{service.Name}\"?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (res != DialogResult.Yes) return;
 
@@ -530,14 +497,10 @@ namespace DBautodMilan
                 return;
             }
 
-            // Refresh UI
             LoadServices();
             LoadCombos();
         }
 
-        // ============================================================
-        // Временные слоты
-        // ============================================================
         private void DtServiceDate_ValueChanged(object? sender, EventArgs e)
         {
             TryLoadTimeSlots();
@@ -548,7 +511,6 @@ namespace DBautodMilan
             TryLoadTimeSlots();
         }
 
-        // Попытаться загрузить слоты, без выбрасывания исключения, если контрол не создан
         private void TryLoadTimeSlots()
         {
             try
@@ -557,14 +519,13 @@ namespace DBautodMilan
             }
             catch
             {
-                // если формы/контролы ещё нет — ничего не делаем
+
             }
         }
 
-        // Генерация слотов с шагом 30 минут. Помечаем занятые и прошедшие.
         private void LoadTimeSlots(DateTime date)
         {
-            if (cbServiceTime == null) return; // защитно — если контрол не добавлен в designer
+            if (cbServiceTime == null) return; 
 
             int selectedCarId = (cbCars.SelectedValue is int id) ? id : -1;
 
@@ -575,7 +536,6 @@ namespace DBautodMilan
             {
                 var slotDt = date.Date + t;
 
-                // Не показываем слоты, если время уже прошло
                 if (slotDt <= DateTime.Now)
                     continue;
 
@@ -598,11 +558,216 @@ namespace DBautodMilan
             }
             catch
             {
-                // ignore if grid not initialized
+
             }
 
             LoadCarServices();
             Avaleht.SelectedTab = tabPage4;
+        }
+
+        private void SetupSortCombos()
+        {
+            PopulateSortCombo(cmbSortOwners, new[]
+            {
+                "Sorteerimine",
+                "Id ↑", "Id ↓",
+                "FullName ↑", "FullName ↓",
+                "Phone ↑", "Phone ↓",
+                "Cars ↑", "Cars ↓"
+            });
+
+            PopulateSortCombo(cmbSortCars, new[]
+            {
+                "Sorteerimine",
+                "Id ↑", "Id ↓",
+                "Brand ↑", "Brand ↓",
+                "Model ↑", "Model ↓",
+                "RegistrationNumber ↑", "RegistrationNumber ↓",
+                "Owner ↑", "Owner ↓"
+            });
+
+            PopulateSortCombo(cmbSortServices, new[]
+            {
+                "Sorteerimine",
+                "Id ↑", "Id ↓",
+                "Name ↑", "Name ↓",
+                "Price ↑", "Price ↓"
+            });
+
+            PopulateSortCombo(cmbSortCarServices, new[]
+            {
+                "Sorteerimine",
+                "DateOfService ↑", "DateOfService ↓",
+                "Owner ↑", "Owner ↓",
+                "Car ↑", "Car ↓",
+                "Service ↑", "Service ↓",
+                "Labisoit ↑", "Labisoit ↓",
+                "Valmis ↑", "Valmis ↓",
+                "Price ↑", "Price ↓"
+            });
+
+            cmbSortOwners.SelectedIndexChanged += cmbSortOwners_SelectedIndexChanged;
+            cmbSortCars.SelectedIndexChanged += cmbSortCars_SelectedIndexChanged;
+            cmbSortServices.SelectedIndexChanged += cmbSortServices_SelectedIndexChanged;
+            cmbSortCarServices.SelectedIndexChanged += cmbSortCarServices_SelectedIndexChanged;
+        }
+
+        private void PopulateSortCombo(ComboBox cb, string[] options)
+        {
+            if (cb == null) return;
+            cb.Items.Clear();
+            cb.Items.AddRange(options);
+            cb.SelectedIndex = 0;
+        }
+
+        // Handlers
+        private void cmbSortOwners_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cmbSortOwners.SelectedItem is string opt)
+                ApplySortOwners(opt);
+        }
+
+        private void cmbSortCars_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cmbSortCars.SelectedItem is string opt)
+                ApplySortCars(opt);
+        }
+
+        private void cmbSortServices_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cmbSortServices.SelectedItem is string opt)
+                ApplySortServices(opt);
+        }
+
+        private void cmbSortCarServices_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cmbSortCarServices.SelectedItem is string opt)
+                ApplySortCarServices(opt);
+        }
+
+        private void ApplySortOwners(string option)
+        {
+            using var db = new AutoDbContext();
+            var q = db.Owners.AsQueryable();
+
+            q = option switch
+            {
+                "Id ↑" => q.OrderBy(o => o.Id),
+                "Id ↓" => q.OrderByDescending(o => o.Id),
+                "FullName ↑" => q.OrderBy(o => o.FullName),
+                "FullName ↓" => q.OrderByDescending(o => o.FullName),
+                "Phone ↑" => q.OrderBy(o => o.Phone),
+                "Phone ↓" => q.OrderByDescending(o => o.Phone),
+                "Cars ↑" => q.OrderBy(o => o.Cars.Count),
+                "Cars ↓" => q.OrderByDescending(o => o.Cars.Count),
+                _ => q.OrderBy(o => o.Id)
+            };
+
+            dgvOwners.DataSource = q.Select(o => new
+            {
+                o.Id,
+                o.FullName,
+                o.Phone,
+                Cars = o.Cars.Count
+            }).ToList();
+        }
+
+        private void ApplySortCars(string option)
+        {
+            using var db = new AutoDbContext();
+            var q = db.Cars.Include(c => c.Owner).AsQueryable();
+
+            q = option switch
+            {
+                "Id ↑" => q.OrderBy(c => c.Id),
+                "Id ↓" => q.OrderByDescending(c => c.Id),
+                "Brand ↑" => q.OrderBy(c => c.Brand),
+                "Brand ↓" => q.OrderByDescending(c => c.Brand),
+                "Model ↑" => q.OrderBy(c => c.Model),
+                "Model ↓" => q.OrderByDescending(c => c.Model),
+                "RegistrationNumber ↑" => q.OrderBy(c => c.RegistrationNumber),
+                "RegistrationNumber ↓" => q.OrderByDescending(c => c.RegistrationNumber),
+                "Owner ↑" => q.OrderBy(c => c.Owner.FullName),
+                "Owner ↓" => q.OrderByDescending(c => c.Owner.FullName),
+                _ => q.OrderBy(c => c.Id)
+            };
+
+            dgvCars.DataSource = q.Select(c => new
+            {
+                c.Id,
+                c.Brand,
+                c.Model,
+                c.RegistrationNumber,
+                Owner = c.Owner.FullName
+            }).ToList();
+        }
+
+        private void ApplySortServices(string option)
+        {
+            using var db = new AutoDbContext();
+            var q = db.Services.AsQueryable();
+
+            q = option switch
+            {
+                "Id ↑" => q.OrderBy(s => s.Id),
+                "Id ↓" => q.OrderByDescending(s => s.Id),
+                "Name ↑" => q.OrderBy(s => s.Name),
+                "Name ↓" => q.OrderByDescending(s => s.Name),
+                "Price ↑" => q.OrderBy(s => s.Price),
+                "Price ↓" => q.OrderByDescending(s => s.Price),
+                _ => q.OrderBy(s => s.Id)
+            };
+
+            dgvServices.DataSource = q.Select(s => new
+            {
+                s.Id,
+                s.Name,
+                s.Price
+            }).ToList();
+        }
+
+        private void ApplySortCarServices(string option)
+        {
+            using var db = new AutoDbContext();
+
+            var baseQuery = db.CarServices
+                .Include(cs => cs.Car)
+                .Include(cs => cs.Service)
+                .ThenInclude(s => s.CarServices)
+                .Include(cs => cs.Car.Owner)
+                .AsQueryable();
+
+            baseQuery = option switch
+            {
+                "DateOfService ↑" => baseQuery.OrderBy(cs => cs.DateOfService),
+                "DateOfService ↓" => baseQuery.OrderByDescending(cs => cs.DateOfService),
+                "Owner ↑" => baseQuery.OrderBy(cs => cs.Car.Owner.FullName),
+                "Owner ↓" => baseQuery.OrderByDescending(cs => cs.Car.Owner.FullName),
+                "Car ↑" => baseQuery.OrderBy(cs => cs.Car.RegistrationNumber),
+                "Car ↓" => baseQuery.OrderByDescending(cs => cs.Car.RegistrationNumber),
+                "Service ↑" => baseQuery.OrderBy(cs => cs.Service.Name),
+                "Service ↓" => baseQuery.OrderByDescending(cs => cs.Service.Name),
+                "Labisoit ↑" => baseQuery.OrderBy(cs => cs.Mileage),
+                "Labisoit ↓" => baseQuery.OrderByDescending(cs => cs.Mileage),
+                "Valmis ↑" => baseQuery.OrderBy(cs => cs.Done),
+                "Valmis ↓" => baseQuery.OrderByDescending(cs => cs.Done),
+                "Price ↑" => baseQuery.OrderBy(cs => cs.PriceCharged),
+                "Price ↓" => baseQuery.OrderByDescending(cs => cs.PriceCharged),
+                _ => baseQuery.OrderByDescending(cs => cs.DateOfService)
+            };
+
+            dataGridView1.DataSource = baseQuery.Select(cs => new
+            {
+                cs.Id,
+                Owner = cs.Car.Owner.FullName,
+                Phone = cs.Car.Owner.Phone,
+                Car = cs.Car.RegistrationNumber,
+                Service = cs.Service.Name,
+                cs.DateOfService,
+                cs.Mileage,
+                cs.Done,
+                Price = cs.PriceCharged
+            }).ToList();
         }
     }
 }

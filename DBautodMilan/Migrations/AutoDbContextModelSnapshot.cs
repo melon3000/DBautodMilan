@@ -66,7 +66,10 @@ namespace DBautodMilan.Migrations
                     b.Property<DateTime>("DateOfService")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Labisoit")
+                    b.Property<bool>("Done")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Mileage")
                         .HasColumnType("int");
 
                     b.Property<decimal>("PriceCharged")
@@ -74,9 +77,6 @@ namespace DBautodMilan.Migrations
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("Valmis")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

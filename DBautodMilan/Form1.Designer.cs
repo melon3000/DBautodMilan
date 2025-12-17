@@ -34,6 +34,7 @@
             label3 = new Label();
             label4 = new Label();
             tabPage1 = new TabPage();
+            cmbSortOwners = new ComboBox();
             dgvOwners = new DataGridView();
             panel1 = new Panel();
             btnAddOwner = new Button();
@@ -43,6 +44,7 @@
             btnDeleteOwner = new Button();
             txtOwnerName = new TextBox();
             tabPage2 = new TabPage();
+            cmbSortCars = new ComboBox();
             dgvCars = new DataGridView();
             panel2 = new Panel();
             btnAddCar = new Button();
@@ -56,6 +58,7 @@
             LabelBrand = new Label();
             txtBrand = new TextBox();
             tabPage4 = new TabPage();
+            cmbSortCarServices = new ComboBox();
             panel4 = new Panel();
             btnResetCarFilter = new Button();
             Aeg = new Label();
@@ -72,6 +75,7 @@
             cbCars = new ComboBox();
             dataGridView1 = new DataGridView();
             tabPage3 = new TabPage();
+            cmbSortServices = new ComboBox();
             dgvServices = new DataGridView();
             panel3 = new Panel();
             btnRemService = new Button();
@@ -80,6 +84,7 @@
             LabelServicePrice = new Label();
             txtServiceName = new TextBox();
             LabelServiceName = new Label();
+            panel5 = new Panel();
             Avaleht.SuspendLayout();
             tabPage5.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -94,6 +99,7 @@
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvServices).BeginInit();
             panel3.SuspendLayout();
+            panel5.SuspendLayout();
             SuspendLayout();
             // 
             // Avaleht
@@ -112,7 +118,7 @@
             // tabPage5
             // 
             tabPage5.BackgroundImage = Properties.Resources.avaleht;
-            tabPage5.Controls.Add(label5);
+            tabPage5.Controls.Add(panel5);
             tabPage5.Controls.Add(label3);
             tabPage5.Controls.Add(label4);
             tabPage5.Location = new Point(4, 24);
@@ -125,7 +131,9 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(642, 402);
+            label5.BackColor = Color.Transparent;
+            label5.ForeColor = SystemColors.ActiveCaptionText;
+            label5.Location = new Point(516, 0);
             label5.Name = "label5";
             label5.Size = new Size(147, 15);
             label5.TabIndex = 2;
@@ -154,6 +162,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(cmbSortOwners);
             tabPage1.Controls.Add(dgvOwners);
             tabPage1.Controls.Add(panel1);
             tabPage1.Location = new Point(4, 24);
@@ -163,6 +172,15 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Omanikud";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // cmbSortOwners
+            // 
+            cmbSortOwners.FormattingEnabled = true;
+            cmbSortOwners.Location = new Point(889, 602);
+            cmbSortOwners.Name = "cmbSortOwners";
+            cmbSortOwners.Size = new Size(121, 23);
+            cmbSortOwners.TabIndex = 4;
+            cmbSortOwners.Text = "Sorteerimine";
             // 
             // dgvOwners
             // 
@@ -244,6 +262,7 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(cmbSortCars);
             tabPage2.Controls.Add(dgvCars);
             tabPage2.Controls.Add(panel2);
             tabPage2.Location = new Point(4, 24);
@@ -253,6 +272,15 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Autod";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // cmbSortCars
+            // 
+            cmbSortCars.FormattingEnabled = true;
+            cmbSortCars.Location = new Point(889, 596);
+            cmbSortCars.Name = "cmbSortCars";
+            cmbSortCars.Size = new Size(121, 23);
+            cmbSortCars.TabIndex = 2;
+            cmbSortCars.Text = "Sorteerimine";
             // 
             // dgvCars
             // 
@@ -370,6 +398,7 @@
             // 
             // tabPage4
             // 
+            tabPage4.Controls.Add(cmbSortCarServices);
             tabPage4.Controls.Add(panel4);
             tabPage4.Controls.Add(dataGridView1);
             tabPage4.Location = new Point(4, 24);
@@ -379,6 +408,15 @@
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Hooldus";
             tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // cmbSortCarServices
+            // 
+            cmbSortCarServices.FormattingEnabled = true;
+            cmbSortCarServices.Location = new Point(889, 599);
+            cmbSortCarServices.Name = "cmbSortCarServices";
+            cmbSortCarServices.Size = new Size(121, 23);
+            cmbSortCarServices.TabIndex = 2;
+            cmbSortCarServices.Text = "Sorteerimine";
             // 
             // panel4
             // 
@@ -529,6 +567,7 @@
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(cmbSortServices);
             tabPage3.Controls.Add(dgvServices);
             tabPage3.Controls.Add(panel3);
             tabPage3.Location = new Point(4, 24);
@@ -538,6 +577,15 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Teenus";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // cmbSortServices
+            // 
+            cmbSortServices.FormattingEnabled = true;
+            cmbSortServices.Location = new Point(889, 599);
+            cmbSortServices.Name = "cmbSortServices";
+            cmbSortServices.Size = new Size(121, 23);
+            cmbSortServices.TabIndex = 2;
+            cmbSortServices.Text = "Sorteerimine";
             // 
             // dgvServices
             // 
@@ -615,6 +663,15 @@
             LabelServiceName.TabIndex = 0;
             LabelServiceName.Text = "Teenuse nimi";
             // 
+            // panel5
+            // 
+            panel5.BackColor = Color.DimGray;
+            panel5.Controls.Add(label5);
+            panel5.Location = new Point(0, 610);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(1201, 15);
+            panel5.TabIndex = 3;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -643,6 +700,8 @@
             ((System.ComponentModel.ISupportInitialize)dgvServices).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            panel5.ResumeLayout(false);
+            panel5.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -700,5 +759,10 @@
         private Label label4;
         private Button btnRemService;
         private Button btnResetCarFilter;
+        private ComboBox cmbSortOwners;
+        private ComboBox cmbSortCars;
+        private ComboBox cmbSortCarServices;
+        private ComboBox cmbSortServices;
+        private Panel panel5;
     }
 }

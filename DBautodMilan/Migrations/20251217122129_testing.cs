@@ -5,10 +5,24 @@
 namespace DBautodMilan.Migrations
 {
     /// <inheritdoc />
-    public partial class kek123 : Migration
+    public partial class testing : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.RenameColumn(
+                name: "Valmis",
+                table: "CarServices",
+                newName: "Done");
+
+            migrationBuilder.RenameColumn(
+                name: "Labisoit",
+                table: "CarServices",
+                newName: "Mileage");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
                 name: "Mileage",
@@ -16,23 +30,9 @@ namespace DBautodMilan.Migrations
                 newName: "Labisoit");
 
             migrationBuilder.RenameColumn(
-                name: "Completed",
+                name: "Done",
                 table: "CarServices",
                 newName: "Valmis");
-        }
-
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.RenameColumn(
-                name: "Valmis",
-                table: "CarServices",
-                newName: "Completed");
-
-            migrationBuilder.RenameColumn(
-                name: "Labisoit",
-                table: "CarServices",
-                newName: "Mileage");
         }
     }
 }
